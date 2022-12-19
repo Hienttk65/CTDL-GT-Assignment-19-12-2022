@@ -1,0 +1,99 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node {
+    int value;
+    Node* next;
+};
+
+struct lisT {
+    Node* initialNode, * lastedNode;
+};
+
+void newList(lisT *l) {
+    l->initialNode = l->lastedNode = NULL;
+}
+
+Node* callNode(int N) {
+    Node* p;
+    p = new Node;
+    if (p == NULL) return NULL;
+    p->value = N;
+    p->next = NULL;
+    return p;
+}
+
+void addNode(lisT* list, Node*p) {
+    if (list->initialNode == NULL) { list->initialNode = list->lastedNode = p;}
+    else
+    {
+        list->lastedNode->next = p; 
+        list->lastedNode = p; 
+    }
+}
+
+void attachNode(lisT*list, int N) {
+    Node* pDT = callNode(N);
+    if (pDT == NULL) return;
+    addNode(list, pDT);
+}
+
+void createList(lisT *list) {
+    int number;
+    cout << "Number of elements of the array: "; cin >> number;
+    int N;
+    int i = 0; 
+    do
+    {
+    i++;
+    cout << "Enter the element number " << i << endl;
+    cout << "Enter value: "; cin >> N;
+    attachNode(list, N);
+    cout << endl;
+    } while (i != number);
+}
+
+void printList(lisT list) {
+    Node* p;
+    p = list.initialNode;
+    cout << "\nList number:";
+    while (p != NULL) {
+    cout << p->value <<"   ";
+    p = p->next;
+    }
+}
+
+Node* attact(Node* d, int M){
+    Node *p;
+    p->value = M;
+    d->next = p;
+    d = p;
+    return d;
+}
+
+int checkPalindrome(struct Node** left, struct Node* right)
+{
+    if (right == NULL) {return 1;}
+    int result = checkPalindrome(left, right->next) && ((*left)->value == right->value);
+    (*left) = (*left)->next;
+    return result;
+}
+ 
+int checkPalin(struct Node* head) {
+    return checkPalindrome(&head, head);
+}
+
+int main()
+{
+    lisT List1;
+    newList(&List1);
+    createList(&List1);
+    if (checkPalin(List1.initialNode)) {
+        cout << "The linked list is a palindrome";
+    }
+    else {
+        cout << "The linked list is not a palindrome";
+    }
+}
+
+
